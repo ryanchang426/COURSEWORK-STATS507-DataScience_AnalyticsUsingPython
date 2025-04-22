@@ -1,3 +1,6 @@
+
+----------------- Environment Setup -----------------
+
 # Create a conda environment for TabPFN
 # Please create conda environment manually via terminal: 
 #conda create -n tabpfn-env python=3.10 -y
@@ -9,7 +12,7 @@
 # Install TabPFN and other dependencies
 !pip install tabpfn matplotlib pandas scikit-learn
 
-
+----------------- Data Processing -----------------
 
 import os
 os.environ['TABPFN_ALLOW_CPU_LARGE_DATASET'] = '1'
@@ -90,7 +93,7 @@ df_model[num_cols] = scaler.fit_transform(df_model[num_cols])
 # Quick look
 df_model.head()
 
-
+----------------- Traditional Model -----------------
 
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import Ridge
@@ -137,7 +140,7 @@ print('\nXGBoost:')
 evaluate_model(xgb_ba, X_test, y_test_ba, 'BA_next')
 evaluate_model(xgb_hr, X_test, y_test_hr, 'HR_next')
 
-
+----------------- Visualization 1 -----------------
 
 import matplotlib.pyplot as plt
 import pandas as pd
@@ -164,7 +167,7 @@ plot_predictions(y_test_hr, ridge_hr.predict(X_test), 'Ridge - HR_next')
 plot_predictions(y_test_hr, rf_hr.predict(X_test), 'Random Forest - HR_next')
 plot_predictions(y_test_hr, xgb_hr.predict(X_test), 'XGBoost - HR_next')
 
-
+----------------- TabPFN -----------------
 
 import torch
 import pandas as pd
@@ -212,7 +215,7 @@ def evaluate(y_true, y_pred, name):
 evaluate(y_test_ba, y_pred_ba, 'TabPFN - BA_next')
 evaluate(y_test_hr, y_pred_hr, 'TabPFN - HR_next')
 
-
+----------------- Visualization 2 -----------------
 
 # Visualization function2
 import matplotlib.pyplot as plt
@@ -231,7 +234,7 @@ def plot_predictions(y_true, y_pred, title):
 plot_predictions(y_test_ba, y_pred_ba, 'TabPFN - BA_next')
 plot_predictions(y_test_hr, y_pred_hr, 'TabPFN - HR_next')
 
-
+----------------- Aggregation -----------------
 
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -262,7 +265,6 @@ ax[1].set_ylabel('R²')
 plt.suptitle('Model Comparison on BA_next')
 plt.tight_layout()
 plt.show()
-
 
 # HR_next RMSE and R²
 fig, ax = plt.subplots(1, 2, figsize=(12, 5))
